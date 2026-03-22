@@ -12,13 +12,13 @@
     <div class="banner-inner">
       <i class="fa-solid fa-warehouse"></i>
       <h1>修理厂轮胎存放管理系统</h1>
-      <p>车牌号查询 · 新增记录 · 数据同步 · 一键清空</p>
+      <p>后四位查询 · 多条件搜索 · 数据同步 · 一键清空</p>
     </div>
   </div>
 
   <div class="nav-bar">
     <button class="nav-item active" onclick="showTab('search')">
-      <i class="fa-solid fa-magnifying-glass"></i> 车牌号查询
+      <i class="fa-solid fa-magnifying-glass"></i> 快速查询
     </button>
     <button class="nav-item" onclick="showTab('list')">
       <i class="fa-solid fa-list-ul"></i> 全部记录
@@ -32,16 +32,16 @@
     <div id="searchTab" class="tab active">
       <div class="card">
         <div class="card-title">
-          <i class="fa-solid fa-search"></i> 快速查询
+          <i class="fa-solid fa-search"></i> 多条件查询
         </div>
         <div class="search-bar">
-          <input type="text" id="carInput" placeholder="输入车牌号，如：京A12345">
+          <input type="text" id="searchInput" placeholder="输入车牌后四位/手机号后四位/客户姓名">
           <button onclick="searchCar()">查询</button>
         </div>
         <div id="resultArea" class="result-box">
           <div class="empty-tip">
             <i class="fa-solid fa-file-text"></i>
-            <p>请输入车牌号进行查询</p>
+            <p>请输入查询内容</p>
           </div>
         </div>
       </div>
@@ -74,16 +74,20 @@
           <i class="fa-solid fa-user-plus"></i> 新增存放记录
         </div>
         <div class="form-group">
-          <label>车牌号</label>
-          <input type="text" id="addCarNo" placeholder="例如：京A12345">
+          <label>车牌号（选其一）</label>
+          <input type="text" id="addCarNo" placeholder="例如：京A12345（可填完整）">
         </div>
         <div class="form-group">
-          <label>客户姓名</label>
+          <label>手机号（选其一）</label>
+          <input type="text" id="addPhone" placeholder="例如：13800138000">
+        </div>
+        <div class="form-group">
+          <label>客户姓名（选其一）</label>
           <input type="text" id="addCustomer" placeholder="请输入客户姓名">
         </div>
         <div class="form-group">
-          <label>轮胎规格</label>
-          <input type="text" id="addTireSpec" placeholder="例如：205/55R16">
+          <label>轮胎规格（选填）</label>
+          <input type="text" id="addTireSpec" placeholder="例如：205/55R16（可不填）">
         </div>
         <div class="form-group">
           <label>存放位置</label>
