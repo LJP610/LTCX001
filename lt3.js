@@ -29,7 +29,6 @@ function showTab(tabName) {
   if (tabName === "list") renderList();
 }
 
-// 多条件查询：车牌后四位 / 手机号后四位 / 姓名
 function searchCar() {
   const kw = document.getElementById("searchInput").value.trim();
   const area = document.getElementById("resultArea");
@@ -93,7 +92,6 @@ function delItem(index) {
   }
 }
 
-// 新增：车牌、电话、姓名填一个即可，轮胎选填
 function addTireRecord() {
   const carNo = document.getElementById("addCarNo").value.trim();
   const phone = document.getElementById("addPhone").value.trim();
@@ -146,4 +144,7 @@ function importData(e) {
       if (confirm("导入会覆盖当前数据，确定继续？")) {
         tireData = data;
         saveData();
-       
+        alert("导入成功！");
+        renderList();
+      }
+    } c
