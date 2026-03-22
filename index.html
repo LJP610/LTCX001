@@ -12,7 +12,7 @@
     <div class="banner-inner">
       <i class="fa-solid fa-warehouse"></i>
       <h1>修理厂轮胎存放管理系统</h1>
-      <p>车牌号查询 · 新增记录 · 多设备同步</p>
+      <p>车牌号查询 · 新增记录 · 数据同步 · 一键清空</p>
     </div>
   </div>
 
@@ -29,7 +29,6 @@
   </div>
 
   <div class="main-container">
-    <!-- 查询页 -->
     <div id="searchTab" class="tab active">
       <div class="card">
         <div class="card-title">
@@ -48,7 +47,6 @@
       </div>
     </div>
 
-    <!-- 全部记录 -->
     <div id="listTab" class="tab">
       <div class="card">
         <div class="card-title">
@@ -62,12 +60,14 @@
             <i class="fa-solid fa-upload"></i> 导入数据
             <input type="file" accept=".json" onchange="importData(event)" hidden>
           </label>
+          <button onclick="clearAllData()" class="btn-clear">
+            <i class="fa-solid fa-trash-can"></i> 一键清空
+          </button>
         </div>
         <div id="tireList" class="list-box"></div>
       </div>
     </div>
 
-    <!-- 新增 -->
     <div id="addTab" class="tab">
       <div class="card">
         <div class="card-title">
