@@ -147,4 +147,20 @@ function importData(e) {
         alert("导入成功！");
         renderList();
       }
-    } c
+    } catch {
+      alert("文件格式错误！");
+    }
+  };
+  reader.readAsText(file);
+}
+
+function clearAllData() {
+  if (confirm("⚠️ 危险操作！将删除所有数据，无法恢复！\n确定继续？")) {
+    if (confirm("🔁 再次确认：真的要清空所有数据吗？")) {
+      tireData = [];
+      saveData();
+      renderList();
+      alert("✅ 所有数据已清空！");
+    }
+  }
+}
