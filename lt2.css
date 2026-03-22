@@ -1,0 +1,23 @@
+// 简单轮胎数据示例，你可以自己改
+const tireData = [
+  { code: "195/65R15", info: "适配紧凑型轿车，舒适性好" },
+  { code: "205/55R16", info: "中型车常用，均衡型" },
+  { code: "225/45R18", info: "运动型轿车，操控好" }
+];
+
+function searchTire() {
+  const input = document.getElementById("tireInput").value.trim();
+  const resultDiv = document.getElementById("result");
+
+  if (!input) {
+    resultDiv.innerHTML = "请输入轮胎规格";
+    return;
+  }
+
+  const find = tireData.find(item => item.code === input);
+  if (find) {
+    resultDiv.innerHTML = `<strong>${find.code}</strong><br>${find.info}`;
+  } else {
+    resultDiv.innerHTML = "未找到该规格，请检查输入或补充数据";
+  }
+}
