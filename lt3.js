@@ -1,4 +1,3 @@
-// 数据初始化
 let tireData = JSON.parse(localStorage.getItem("tireData")) || [
   { carNo: "京A12345", customer: "张先生", tireSpec: "205/55R16", location: "A区03柜", storageDate: "2026-03-10" },
   { carNo: "沪B67890", customer: "李女士", tireSpec: "225/45R18", location: "B区12柜", storageDate: "2026-03-15" }
@@ -8,7 +7,6 @@ function saveData() {
   localStorage.setItem("tireData", JSON.stringify(tireData));
 }
 
-// 切换页面
 function showTab(tabName) {
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
@@ -17,7 +15,6 @@ function showTab(tabName) {
   if (tabName === "list") renderList();
 }
 
-// 查询
 function searchCar() {
   const val = document.getElementById("carInput").value.trim().toUpperCase();
   const area = document.getElementById("resultArea");
@@ -41,7 +38,6 @@ function searchCar() {
   }
 }
 
-// 渲染列表
 function renderList() {
   const box = document.getElementById("tireList");
   if (tireData.length === 0) {
@@ -58,7 +54,6 @@ function renderList() {
   `).join("");
 }
 
-// 删除
 function delItem(index) {
   if (confirm("确定删除这条记录？")) {
     tireData.splice(index, 1);
@@ -67,7 +62,6 @@ function delItem(index) {
   }
 }
 
-// 新增
 function addTireRecord() {
   const carNo = document.getElementById("addCarNo").value.trim().toUpperCase();
   const customer = document.getElementById("addCustomer").value.trim();
@@ -92,7 +86,6 @@ function addTireRecord() {
   document.getElementById("addLocation").value = "";
 }
 
-// 导出数据
 function exportData() {
   const str = JSON.stringify(tireData, null, 2);
   const blob = new Blob([str], { type: "application/json" });
@@ -105,7 +98,6 @@ function exportData() {
   alert("导出成功！可微信发送到其他设备导入");
 }
 
-// 导入数据
 function importData(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -124,4 +116,15 @@ function importData(e) {
     }
   };
   reader.readAsText(file);
+}
+
+function clearAllData() {
+  if (confirm("⚠️ 危险操作！将删除所有数据，无法恢复！\n确定继续？")) {
+    if (confirm("🔁 再次确认：真的要清空所有数据吗？")) {
+      tireData = [];
+      saveData();
+      renderList();
+      alert("✅ 所有数据已清空！");
+    }
+  }
 }
