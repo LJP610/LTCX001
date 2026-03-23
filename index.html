@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>轮胎存放管理</title>
+  <title>轮胎存放管理系统</title>
   <link rel="stylesheet" href="lt2.css">
 </head>
 <body>
@@ -21,7 +21,7 @@
   </div>
 
   <div class="main-container">
-    <!-- 列表 -->
+    <!-- 记录列表页 -->
     <div class="tab active" id="list">
       <div class="card">
         <div class="card-title">记录列表</div>
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <!-- 添加 -->
+    <!-- 添加记录页 -->
     <div class="tab" id="add">
       <div class="card">
         <div class="card-title">添加轮胎记录</div>
@@ -60,7 +60,7 @@
       </div>
     </div>
 
-    <!-- 查询 -->
+    <!-- 高级查询页 -->
     <div class="tab" id="search">
       <div class="card">
         <div class="card-title">高级查询</div>
@@ -71,7 +71,7 @@
         <div class="form-group">
           <label>手机号后四位</label>
           <input type="text" id="q_phone">
-          </div>
+        </div>
         <div class="form-group">
           <label>客户姓名</label>
           <input type="text" id="q_name">
@@ -86,6 +86,7 @@
     轮胎管理系统 © 云存储版
   </div>
 
+  <!-- 先引入Supabase库，再引入自己的JS，顺序不能变 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="lt3.js"></script>
 </body>
