@@ -1,24 +1,22 @@
-let tireData = JSON.parse(localStorage.getItem("tireData")) || [
-  {
-    carNo: "京A12345",
-    phone: "13800138000",
-    customer: "张先生",
-    tireSpec: "205/55R16",
-    location: "A区03柜",
-    storageDate: "2026-03-10"
-  },
-  {
-    carNo: "沪B67890",
-    phone: "13912345678",
-    customer: "李女士",
-    tireSpec: "225/45R18",
-    location: "B区12柜",
-    storageDate: "2026-03-15"
-  }
-];
+// ====================== 在这里填你的 Supabase 信息 ======================
+const SUPABASE_URL = "sb_publishable_9c9-Zb9m5FptFG6um-8i0w_8WLX3kRR";
+// =======================================================================
 
-function saveData() {
-  localStorage.setItem("tireData", JSON.stringify(tireData));
+const supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_KEY);
+let tireData = [];
+
+async function refreshList() {
+  const { data, error } = await supabase
+    .from("tire_records")
+    .select("*")
+    .order("id", { ascending: false });
+
+  if (error) {
+    alert("加载失败：" + error.message);
+    return;
+  }
+  tireData = data;
+  renderList();
 }
 
 function showTab(tabName) {
@@ -26,7 +24,7 @@ function showTab(tabName) {
   document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
   document.getElementById(tabName + "Tab").classList.add("active");
   document.querySelector(`.nav-item[onclick="showTab('${tabName}')"]`).classList.add("active");
-  if (tabName === "list") renderList();
+  if (tabName === "list") refreshList();
 }
 
 function searchCar() {
@@ -79,20 +77,23 @@ function renderList() {
       <div class="item-info">
         <strong>${item.carNo || '无牌'}</strong>｜${item.phone || '无电话'}｜${item.customer}｜${item.tireSpec || '无规格'}
       </div>
-      <button class="del-btn" onclick="delItem(${idx})">删除</button>
+      <button class="del-btn" onclick="delItem(${item.id})">删除</button>
     </div>
   `).join("");
 }
 
-function delItem(index) {
-  if (confirm("确定删除这条记录？")) {
-    tireData.splice(index, 1);
-    saveData();
-    renderList();
+async function delItem(id) {
+  if (!confirm("确定删除这条记录？")) return;
+  const { error } = await supabase.from("tire_records").delete().eq("id", id);
+  if (error) {
+    alert("删除失败：" + error.message);
+  } else {
+    alert("删除成功");
+    refreshList();
   }
 }
 
-function addTireRecord() {
+async function addTireRecord() {
   const carNo = document.getElementById("addCarNo").value.trim();
   const phone = document.getElementById("addPhone").value.trim();
   const customer = document.getElementById("addCustomer").value.trim();
@@ -109,58 +110,36 @@ function addTireRecord() {
     return;
   }
 
-  tireData.push({
-    carNo, phone, customer, tireSpec, location, storageDate
-  });
-  saveData();
-  alert("添加成功！");
+  const { error } = await supabase.from("tire_records").insert([
+    { carNo, phone, customer, tireSpec, location, storageDate }
+  ]);
 
-  document.getElementById("addCarNo").value = "";
-  document.getElementById("addPhone").value = "";
-  document.getElementById("addCustomer").value = "";
-  document.getElementById("addTireSpec").value = "";
-  document.getElementById("addLocation").value = "";
-}
-
-function exportData() {
-  const str = JSON.stringify(tireData, null, 2);
-  const blob = new Blob([str], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "轮胎数据.json";
-  a.click();
-  URL.revokeObjectURL(url);
-  alert("导出成功！");
-}
-
-function importData(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    try {
-      const data = JSON.parse(ev.target.result);
-      if (confirm("导入会覆盖当前数据，确定继续？")) {
-        tireData = data;
-        saveData();
-        alert("导入成功！");
-        renderList();
-      }
-    } catch {
-      alert("文件格式错误！");
-    }
-  };
-  reader.readAsText(file);
-}
-
-function clearAllData() {
-  if (confirm("⚠️ 危险操作！将删除所有数据，无法恢复！\n确定继续？")) {
-    if (confirm("🔁 再次确认：真的要清空所有数据吗？")) {
-      tireData = [];
-      saveData();
-      renderList();
-      alert("✅ 所有数据已清空！");
-    }
+  if (error) {
+    alert("保存失败：" + error.message);
+  } else {
+    alert("添加成功！");
+    document.getElementById("addCarNo").value = "";
+    document.getElementById("addPhone").value = "";
+    document.getElementById("addCustomer").value = "";
+    document.getElementById("addTireSpec").value = "";
+    document.getElementById("addLocation").value = "";
   }
 }
+
+async function clearAllData() {
+  if (!confirm("⚠️ 危险操作！清空云端所有数据，无法恢复！")) return;
+  if (!confirm("🔁 再次确认：真的要清空云端所有数据吗？")) return;
+  
+  const { error } = await supabase.from("tire_records").delete().gte("id", 0);
+  if (error) {
+    alert("清空失败：" + error.message);
+  } else {
+    alert("✅ 所有数据已清空！");
+    refreshList();
+  }
+}
+
+// 页面加载时自动刷新
+window.onload = () => {
+  showTab('search');
+};
