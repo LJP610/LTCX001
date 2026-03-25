@@ -1,6 +1,6 @@
 // 1. 初始化 Supabase 客户端（替换为你的项目信息）
-const supabaseUrl = "<https://khttaxdirjydusigiwuw.supabase.co>";
-const supabaseKey = "<sb_publishable_LAbu0LXR18HU2ULExQJG7w_dmoG-x3y>";
+const supabaseUrl = "<https://xbpqzduqotplybeknljo.supabase.co>";
+const supabaseKey = "<sb_publishable_1fwaLFWMucEbLfNWEkRavA_d3TQH9eC>";
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 // 2. 关键词高亮处理（保留原有逻辑）
